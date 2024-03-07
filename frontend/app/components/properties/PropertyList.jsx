@@ -5,7 +5,11 @@ import PropertyListItem from "./PropertyListItem";
 const PropertyList = () => {
     const [properties, setProperties] = useState([]);
     const getProperties = async () => {
-        const data = await fetch("http://127.0.0.1:8000/api/properties/");
+        const data = await fetch("http://127.0.0.1:8000/api/properties/", {
+            next: {
+                revalidate: 60 * 15,
+            }
+        });
         const response = await data.json();
         setProperties(response);
     }

@@ -5,9 +5,9 @@ from .models import User
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ['username', 'email', 'last_login', 'is_active']
-    list_filter = ['username', 'email', 'is_active']
-    search_fields = ['username', 'email', 'is_active']
+    list_display = ['email', 'last_login', 'is_active']
+    list_filter = ['email', 'is_active']
+    search_fields = ['email', 'is_active']
     fieldsets = [
         (
             "Personal Details",

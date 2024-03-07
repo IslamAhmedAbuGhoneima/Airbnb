@@ -2,7 +2,9 @@ import Link from "next/link"
 import Image from "next/image"
 import SearchFilter from "./SearchFilter"
 import UserNav from "./UserNav"
-const Navbar = () => {
+import { getUserID } from "@/app/lib/actions"
+const Navbar = async () => {
+    const userID = await getUserID();
     return (
         <nav className='w-full fixed top-0 border-b p-3 z-50 px-4 shadow-lg shadow-gray-600 bg-white'>
             <div className="flex justify-between items-center">
@@ -17,9 +19,7 @@ const Navbar = () => {
                     />
                 </Link>
                 <SearchFilter />
-                <div>
-                    <UserNav />
-                </div>
+                <UserNav userID={userID} />
             </div>
         </nav>
     )

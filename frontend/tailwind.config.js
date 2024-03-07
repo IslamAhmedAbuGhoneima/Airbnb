@@ -10,6 +10,9 @@ module.exports = {
             colors: {
                 'airbnb': "#ff385c",
                 'airbnbDark': "#d50027",
+            },
+            animate: {
+                wiggle: 'wiggle 1s ease-in-out infinite',
             }
         },
     },

@@ -1,5 +1,5 @@
 "use client";
-import FormButton from "../elements/FormButton";
+import FormButton from "../form/FormButton";
 const ConversationDetail = () => {
     const handelSendMessage = () => {
         console.log("pressed submit")

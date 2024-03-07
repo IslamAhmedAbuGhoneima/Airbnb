@@ -16,15 +16,14 @@ export default function RootLayout({ children }) {
     return (
         <html lang="en" >
             <body className={inter.className} >
+                <Navbar />
+                <div className="pt-24">
+                    {children}
+                </div>
                 <FormProvider>
-                    <Navbar />
-                    <div className="pt-24">
-                        {children}
-                    </div>
-                    <LoginModel />
                     <SingupModel />
+                    <LoginModel />
                 </FormProvider>
-
             </body>
         </html>
     );

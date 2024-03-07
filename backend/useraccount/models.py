@@ -33,7 +33,7 @@ class CustomUserManager(UserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    uuid = models.UUIDField(
+    id = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False)
     username = models.CharField(max_length=250, blank=True)
     avatar = models.ImageField(upload_to='users/avatars')

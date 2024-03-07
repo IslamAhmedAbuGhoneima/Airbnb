@@ -1,14 +1,38 @@
-import UserAuth from "./UserAuth"
-const UserNav = () => {
+"use client"
+import { useContext, useState } from "react";
+import FormContext from "@/app/context/FormContext";
+const UserNav = ({ userID }) => {
+    const { handelOpenSingup, handelOpenLogin, logout } = useContext(FormContext);
+    const [isOpen, setIsOpen] = useState(false);
+    const handelOpen = () => setIsOpen(prev => !prev);
     return (
-        <div className="select-none flex justify-center items-center">
-            <p className="cursor-pointer hover:bg-gray-300 p-2 rounded-full">Airbnb your home</p>
-            <div className="cursor-pointer ml-2 mr-2 hover:bg-gray-300 p-2 rounded-full">
-                <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" />
-                </svg>
+        <div className="relative select-none flex justify-center items-center">
+            <p className="cursor-pointer hover:bg-gray-300 text-nowrap lg:text-sm p-2 rounded-full">Airbnb your home</p>
+            <div onClick={handelOpen}>
+                <div className="cursor-pointer flex justify-between items-center border rounded-full p-3 hover:shadow-inner">
+                    <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                    </svg>
+                    <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                    </svg>
+                </div>
+                {isOpen &&
+                    <div className="absolute pt-2 overflow-hidden  w-[250px] bg-white rounded-xl shadow-xl border border-gray-300 right-0 mt-5">
+                        <ul>
+                            {
+                                userID ?
+                                    <li onClick={logout} className="hover:bg-gray-100 transition p-2 pb-4 cursor-pointer">Logout</li>
+                                    :
+                                    <>
+                                        <li onClick={handelOpenLogin} className="hover:bg-gray-100 transition p-2 mb-4 cursor-pointer">Log in</li>
+                                        <li onClick={handelOpenSingup} className="hover:bg-gray-100 transition p-2 cursor-pointer font-semibold border-b">Sing up</li>
+                                    </>
+                            }
+                        </ul>
+                    </div>
+                }
             </div>
-            <UserAuth />
         </div>
     )
 }
