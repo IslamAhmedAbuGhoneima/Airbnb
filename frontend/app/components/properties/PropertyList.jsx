@@ -1,22 +1,17 @@
-"use client";
+'use client';
 import { useEffect, useState } from "react";
 import PropertyListItem from "./PropertyListItem";
+import { getProperties } from "@/app/services/apiServices";
 
-const PropertyList = () => {
+const PropertyList = async () => {
     const [properties, setProperties] = useState([]);
-    const getProperties = async () => {
-        const data = await fetch("http://127.0.0.1:8000/api/properties/", {
-            next: {
-                revalidate: 60 * 15,
-            }
-        });
-        const response = await data.json();
-        setProperties(response);
+    const getData = async () => {
+        const data = await getProperties();
+        setProperties(data);
     }
     useEffect(() => {
-        getProperties();
+        getData();
     }, []);
-
     return (
         <div className="mb-4 grid gap-2 gap-y-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {

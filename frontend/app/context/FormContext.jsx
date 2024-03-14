@@ -7,10 +7,12 @@ export const FormProvider = ({ children }) => {
     const [open, setOpen] = useState({
         login: false,
         singup: false,
+        addProperty: false,
     });
     const router = useRouter();
     const handelOpenLogin = () => setOpen({ ...open, login: !open.login });
     const handelOpenSingup = () => setOpen({ ...open, singup: !open.singup });
+    const handelOpenAddProperty = () => setOpen({ ...open, addProperty: !open.addProperty });
 
 
     const logout = () => {
@@ -21,6 +23,7 @@ export const FormProvider = ({ children }) => {
         open: open,
         handelOpenLogin: handelOpenLogin,
         handelOpenSingup: handelOpenSingup,
+        handelOpenAddProperty, handelOpenAddProperty,
         logout: logout,
     }
     return (

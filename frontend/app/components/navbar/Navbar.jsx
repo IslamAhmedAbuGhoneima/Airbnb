@@ -3,6 +3,7 @@ import Image from "next/image"
 import SearchFilter from "./SearchFilter"
 import UserNav from "./UserNav"
 import { getUserID } from "@/app/lib/actions"
+import AirbnbHome from "./AirbnbHome"
 const Navbar = async () => {
     const userID = await getUserID();
     return (
@@ -11,7 +12,7 @@ const Navbar = async () => {
                 <Link href='/'>
                     <Image
                         priority={true}
-                        className="logo"
+                        className="min-w-[40px]"
                         src='/logo.png'
                         alt="Airbnb Logo"
                         width={100}
@@ -19,7 +20,10 @@ const Navbar = async () => {
                     />
                 </Link>
                 <SearchFilter />
-                <UserNav userID={userID} />
+                <div className="relative select-none flex justify-center items-center">
+                    <AirbnbHome />
+                    <UserNav userID={userID} />
+                </div>
             </div>
         </nav>
     )

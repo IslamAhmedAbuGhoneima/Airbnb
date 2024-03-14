@@ -1,6 +1,6 @@
 const SearchFilter = () => {
     return (
-        <div className="search w-[800px] ml-3 mr-3 flex items-center justify-center border border-solid rounded-full ">
+        <div className="search max-w-[800px] ml-3 mr-3 flex items-center justify-center border border-solid rounded-full ">
             <div className="p-3 cursor-pointer w-[250px] px-8 rounded-full hover:bg-gray-100">
                 <p className="text-xs font-semibold">Where</p>
                 <p className="text-sm">Wanted location</p>

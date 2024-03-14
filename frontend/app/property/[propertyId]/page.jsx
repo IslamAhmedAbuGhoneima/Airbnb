@@ -1,14 +1,35 @@
 import CheckoutReservision from "@/app/components/properties/CheckoutReservision";
 import Image from "next/image";
-const PropertyDetail = () => {
+
+const getProperty = async (propertyId) => {
+    const response = await fetch(`http://127.0.0.1:8000/api/properties/${propertyId}/`);
+    return await response.json();
+}
+
+const PropertyDetail = async ({ params }) => {
+    const { propertyId } = params;
+    const property = await getProperty(propertyId);
+    const {
+        title,
+        description,
+        price_per_night,
+        image_url,
+        bedrooms,
+        bathrooms,
+        guests,
+        country,
+        category,
+        landlord,
+    } = property;
+    const { username, email } = landlord;
     return (
         <main className="max-w-[1200px] mx-auto px-6 mt-5 mb-3">
-            <h1 className="text-2xl font-bold mt-4">Villa Saint Antoine</h1>
+            <h1 className="text-2xl font-bold mt-4">{title}</h1>
             <div className="mt-4 mb-4 flex justify-between items-center">
                 <div>
                     <span className="cursor-pointer mr-2 font-blod text-base underline">2 reviews</span>
                     <span className="mr-2">Super host</span>
-                    <span className="cursor-pointer mr-2 font-blod text-base underline">Chania, Crete, Greece</span>
+                    <span className="cursor-pointer mr-2 font-blod text-base underline">{country}</span>
                 </div>
                 <div className="flex justify-between items-center gap-3">
                     <div className="cursor-pointer hover:bg-gray-200 rounded-xl p-1 flex justify-between items-center">
@@ -25,32 +46,36 @@ const PropertyDetail = () => {
                     </div>
                 </div>
             </div>
-
             <div className="overflow-hidden">
-                <Image className="rounded-xl w-full h-96" src='/properties/chania.webp' alt="chania house" width={2000} height={2000} />
+                <Image
+                    className="rounded-xl w-full h-96"
+                    src={image_url} alt={title}
+                    width={10000} height={10000} />
             </div>
-
-
-            { /*Start detailed page footer*/}
             <div className="flex justify-between items-start gap-4 mt-4 mb-4 p-5">
                 <div className="w-full flex-2 mr-10">
-                    <h1 className="font-bold text-2xl">Entire villa in Pithari, Greece</h1>
+                    <h1 className="font-bold text-2xl">Entire {category} in {country}</h1>
                     <ul className="mt-1 mb-1 text-sm flex gap-1">
-                        <li>10 guests</li>.<li>5 bedrooms</li>. <li>5 beds</li>. <li>8 baths</li>
+                        <li>{guests} guests</li>.<li>{bedrooms} bedrooms</li>. <li>{bathrooms} baths</li>
                     </ul>
                     <div className="flex gap-2 border-b pb-4 pt-4 w-full mt-5 mb-5">
                         <Image className="rounded-full w-12 h-12" src='/hosts/host1.webp' alt="host image" width={100} height={100} />
                         <div className="ml-4">
-                            <h5 className="mb-2 text-base font-bold">Hosted by Kostas</h5>
+                            <h5 className="mb-2 text-base font-bold">Hosted by {username || email}</h5>
                             <p className="mb-2 text-current text-sm">Superhost 10 years hosting</p>
                         </div>
                     </div>
+                    <div>
+                        {description}this is
+                    </div>
                 </div>
                 <div className="w-6/12">
-                    <CheckoutReservision />
+                    <CheckoutReservision
+                        price={price_per_night}
+                        guestNumber={guests}
+                    />
                 </div>
             </div>
-            {/* End detailde page footer */}
         </main>
     )
 }

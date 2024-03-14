@@ -30,5 +30,6 @@ const logoutCookies = async () => {
 
 const getUserID = async () => cookies().get("session_userID")?.value || null;
 
+const getAccessToken = async () => cookies().get("session_access_token")?.value;
 
-export { loginCookies, logoutCookies, getUserID }
+export { loginCookies, logoutCookies, getAccessToken, getUserID }

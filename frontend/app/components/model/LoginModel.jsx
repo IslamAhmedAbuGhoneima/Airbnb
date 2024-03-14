@@ -29,6 +29,7 @@ const LoginModel = () => {
             body: JSON.stringify(formData)
         });
         const response = await data.json();
+        console.log(response);
         if (response.access) {
             const { user: pk, access, refresh } = response;
             loginCookies(pk, access, refresh);
