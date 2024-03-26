@@ -1,7 +1,8 @@
-import { getAccessToken } from "../lib/actions";
+import { getAccessToken, getUserID } from "../lib/actions";
 
 
-const postProperty = async (url, data) => {
+
+const apiPost = async (url, data) => {
     const token = await getAccessToken();
     return new Promise((resolve, reject) => {
         fetch(url, {
@@ -20,14 +21,39 @@ const postProperty = async (url, data) => {
             }))
     })
 }
-const getProperties = async () => {
-    const data = await fetch("http://127.0.0.1:8000/api/properties/", {
-        next: {
-            revalidate: 60 * 15,
+
+const apiPostFavorite = async (url) => {
+    const token = await getAccessToken();
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`
         }
+    });
+    return await response.json()
+}
+
+const apiGet = async (url) => {
+    const token = await getAccessToken();
+    const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+    return await response.json()
+}
+
+const getProperties = async (url) => {
+    const data = await fetch(url);
+    return await data.json();
+}
+
+const getUserDetails = async () => {
+    const data = await fetch(`http://127.0.0.1:8000/user/auth/user-detail/${getUserID()}/`, {
+        method: 'GET',
     });
     return await data.json();
 }
 
-
-export { postProperty, getProperties };
+export { apiPost, apiGet, apiPostFavorite, getProperties, getUserDetails };

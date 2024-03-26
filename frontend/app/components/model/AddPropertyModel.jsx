@@ -7,7 +7,7 @@ import FormButton from "../form/FormButton";
 import Categories from "../categories/Categories";
 import SelectCountry from "../addProperty/forms/SelectCountry";
 import FormErrors from "../form/FormErrors";
-import { getProperties, postProperty } from "@/app/services/apiServices";
+import { getProperties, apiPost } from "@/app/services/apiServices";
 import PlaceDetails from "../addProperty/forms/PlaceDetails";
 import RoomDetails from "../addProperty/forms/RoomDetails";
 import PlaceImage from "../addProperty/forms/PlaceImage";
@@ -59,7 +59,7 @@ const AddPropertyModel = () => {
         formData.append('country', country.label);
         formData.append('country_code', country.value);
         formData.append('image', image);
-        const response = await postProperty('http://127.0.0.1:8000/api/properties/create/', formData)
+        const response = await apiPost('http://127.0.0.1:8000/api/properties/create/', formData)
             .then(
                 (resolve) => getProperties()
             );

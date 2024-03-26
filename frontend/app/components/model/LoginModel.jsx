@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import FormErrors from "../form/FormErrors";
 import FormButton from "../form/FormButton";
 
+
 const LoginModel = () => {
     const { open: { login: loginForm }, handelOpenLogin } = useContext(FormContext);
     const [formData, setFormData] = useState({
@@ -29,10 +30,9 @@ const LoginModel = () => {
             body: JSON.stringify(formData)
         });
         const response = await data.json();
-        console.log(response);
         if (response.access) {
-            const { user: pk, access, refresh } = response;
-            loginCookies(pk, access, refresh);
+            const { user, access, refresh } = response;
+            loginCookies(user.pk, access, refresh);
             handelOpenLogin();
             router.push('/');
             setFormData(
@@ -45,6 +45,12 @@ const LoginModel = () => {
         } else {
             const tmpErrors = Object.values(response).map((error) => error)
             setErrors(tmpErrors);
+            setFormData(
+                {
+                    email: "",
+                    password: "",
+                }
+            );
         }
     }
 
@@ -88,4 +94,4 @@ const LoginModel = () => {
     )
 }
 
-export default LoginModel
+export default LoginModel;

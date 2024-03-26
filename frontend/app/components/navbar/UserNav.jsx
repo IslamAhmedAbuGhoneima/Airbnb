@@ -1,10 +1,14 @@
 "use client"
 import { useContext, useState } from "react";
 import FormContext from "@/app/context/FormContext";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+
 const UserNav = ({ userID }) => {
     const { handelOpenSingup, handelOpenLogin, logout } = useContext(FormContext);
     const [isOpen, setIsOpen] = useState(false);
     const handelOpen = () => setIsOpen(prev => !prev);
+    const router = useRouter();
     return (
         <div onClick={handelOpen}>
             <div className="cursor-pointer flex justify-between items-center border rounded-full p-3 hover:shadow-inner">
@@ -20,7 +24,21 @@ const UserNav = ({ userID }) => {
                     <ul>
                         {
                             userID ?
-                                <li onClick={logout} className="hover:bg-gray-100 transition p-2 pb-4 cursor-pointer">Logout</li>
+                                <>
+                                    <li
+                                        onClick={() => router.push('/user')}
+                                        className="hover:bg-gray-100 transition p-2 pb-4 cursor-pointer"
+                                    >
+                                        Settings
+                                    </li>
+                                    <li
+                                        onClick={() => router.push('/reservations')}
+                                        className="hover:bg-gray-100 transition p-2 pb-4 cursor-pointer"
+                                    >
+                                        Reservations
+                                    </li>
+                                    <li onClick={logout} className="hover:bg-gray-100 transition p-2 pb-4 cursor-pointer">Logout</li>
+                                </>
                                 :
                                 <>
                                     <li onClick={handelOpenLogin} className="hover:bg-gray-100 transition p-2 mb-4 cursor-pointer">Log in</li>

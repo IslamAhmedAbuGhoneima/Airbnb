@@ -12,6 +12,7 @@ class Property(models.Model):
         User, related_name='properties', on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     description = models.TextField()
+    favorited = models.ManyToManyField(User, related_name='favorites')
     image = models.ImageField(upload_to='properties/images')
     price_per_night = models.DecimalField(max_digits=7, decimal_places=2)
     bedrooms = models.IntegerField()
@@ -34,3 +35,26 @@ class Property(models.Model):
 
     def __str__(self):
         return f"Hosted by {self.landlord.username}"
+
+
+class Reservation(models.Model):
+    id = models.UUIDField(
+        primary_key=True, default=uuid.uuid4, editable=False)
+    property = models.ForeignKey(
+        Property, related_name='reservations', on_delete=models.CASCADE)
+    created_by = models.ForeignKey(
+        User, related_name='reservations', on_delete=models.CASCADE)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    number_of_nights = models.IntegerField()
+    guests = models.IntegerField()
+    price = models.FloatField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=["id", "created_at"]),
+        ]
+
+    def __str__(self):
+        return f"{self.created_by.username} reseve the property {self.property.title}"

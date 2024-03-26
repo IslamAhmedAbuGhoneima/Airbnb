@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import UserManager, AbstractBaseUser, PermissionsMixin
 import uuid
 # Create your models here.
@@ -54,6 +55,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = 'User'
         verbose_name_plural = 'Users'
+
+    def avatar_url(self):
+        return f"{settings.WEBSITE_URL}{self.avatar.url}" if self.avatar else ""
 
     def __str__(self):
         return self.email
