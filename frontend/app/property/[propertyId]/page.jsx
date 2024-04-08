@@ -1,16 +1,26 @@
 import FavoriteButton from "@/app/components/form/FavoriteButton";
 import CheckoutReservision from "@/app/components/properties/CheckoutReservision";
+import { getUserID } from "@/app/lib/actions";
 import Image from "next/image";
 import Link from "next/link";
 
 const getProperty = async (propertyId) => {
-    const response = await fetch(`http://127.0.0.1:8000/api/property/${propertyId}/`);
+    const response = await fetch(`http://127.0.0.1:8000/api/property/${propertyId}/`, {
+        cache: "no-cache"
+    }
+    );
     return await response.json();
 }
 
 const PropertyDetail = async ({ params }) => {
     const { propertyId } = params;
     const property = await getProperty(propertyId);
+    const userId = await getUserID();
+    let isFavorite = false;
+    property.favorited.
+        find(
+            (favorite) => favorite == userId ? isFavorite = true : isFavorite = false
+        );
     return (
         <main className="max-w-[1200px] mx-auto px-6 mt-5 mb-3">
             <h1 className="text-2xl font-bold mt-4">{property.title}</h1>
@@ -31,6 +41,7 @@ const PropertyDetail = async ({ params }) => {
                         <FavoriteButton
                             key={propertyId}
                             propertyId={property.uuid}
+                            isFavorite={isFavorite}
                         />
                         <span className="ml-2 underline ">save</span>
                     </div>

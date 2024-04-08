@@ -20,7 +20,14 @@ ALLOWED_HOSTS = []
 SITE_ID = 1
 WEBSITE_URL = 'http://localhost:8000'
 
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    }
+}
+
 INSTALLED_APPS = [
+    "daphne",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -29,11 +36,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'useraccount.apps.UseraccountConfig',
     'property.apps.PropertyConfig',
+    'chat.apps.ChatConfig',
 
     'rest_framework',
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
+
 
     'allauth',
     'allauth.account',
@@ -47,7 +56,7 @@ INSTALLED_APPS = [
 
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=1),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=90),
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
@@ -87,7 +96,6 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
 
-ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
@@ -140,7 +148,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'core.wsgi.application'
-
+ASGI_APPLICATION = 'core.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases

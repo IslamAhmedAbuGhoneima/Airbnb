@@ -23,7 +23,9 @@ const LandLords = async ({ params }) => {
                             alt="host-image" width={200} height={200}
                         />
                         <h1 className="text-2xl mt-4 mb-4 font-semibold">{landlord.username}</h1>
-                        {userId != id && <ContactButton email={landlord.email} />}
+                        {
+                            userId != id && <ContactButton landlord_id={landlord.id} />
+                        }
                     </div>
                 </aside>
                 <div className="cls-span-1 md:col-span-3 pl-0 md-pl-6">

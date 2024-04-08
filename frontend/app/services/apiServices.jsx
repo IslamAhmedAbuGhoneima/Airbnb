@@ -45,7 +45,9 @@ const apiGet = async (url) => {
 }
 
 const getProperties = async (url) => {
-    const data = await fetch(url);
+    const data = await fetch(url, {
+        cache: "no-cache"
+    });
     return await data.json();
 }
 

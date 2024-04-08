@@ -21,7 +21,7 @@ def properties_list(request):
 
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def create_property(request):
     if request.method == 'POST':
         data = request.data

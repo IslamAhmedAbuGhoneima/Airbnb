@@ -1,7 +1,11 @@
 import Image from "next/image"
 import Link from "next/link"
 import FavoriteButton from "../form/FavoriteButton"
+import { getUserID } from "@/app/lib/actions"
 const PropertyListItem = async ({ property }) => {
+    const userId = await getUserID();
+    let isFavorite = false;
+    property.favorited.find((favorite) => favorite == userId ? isFavorite = true : isFavorite = false);
     return (
         <Link href={`/property/${property.uuid}`} className="mb-5">
             <div className="relative card">
@@ -19,6 +23,7 @@ const PropertyListItem = async ({ property }) => {
                     <FavoriteButton
                         key={property.uuid}
                         propertyId={property.uuid}
+                        isFavorite={isFavorite}
                     />
                 </div>
                 <div>
@@ -35,4 +40,4 @@ const PropertyListItem = async ({ property }) => {
     )
 }
 
-export default PropertyListItem
+export default PropertyListItem;

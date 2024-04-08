@@ -61,7 +61,7 @@ const AddPropertyModel = () => {
         formData.append('image', image);
         const response = await apiPost('http://127.0.0.1:8000/api/properties/create/', formData)
             .then(
-                (resolve) => getProperties()
+                async (_) => await getProperties("http://127.0.0.1:8000/api/properties/")
             );
         if (response.success) {
             console.log('SUCCESS :-D');

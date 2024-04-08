@@ -12,8 +12,9 @@ class PropertySerializer(serializers.ModelSerializer):
             'uuid', 'landlord', 'title', 'description', 'price_per_night',
             'image_url', 'image', 'bedrooms', 'bathrooms',
             'guests', 'country', 'country_code',
-            'category', 'reservations', 'favorited'
+            'category', 'reservations', 'favorited',
         ]
+        read_only_fields = ['favorited']
 
 
 class ReservationSerializer(serializers.ModelSerializer):
