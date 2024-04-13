@@ -1,13 +1,15 @@
 "use client";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import FormContext from "@/app/context/FormContext";
 import Model from "./Model";
 import FormButton from "../form/FormButton";
-import Categories from "../categories/Categories";
+// import Categories from "../categories/Categories";
+import Image from "next/image"
+
 import SelectCountry from "../addProperty/forms/SelectCountry";
 import FormErrors from "../form/FormErrors";
-import { getProperties, apiPost } from "@/app/services/apiServices";
+import { getProperties, apiPost, apiGet } from "@/app/services/apiServices";
 import PlaceDetails from "../addProperty/forms/PlaceDetails";
 import RoomDetails from "../addProperty/forms/RoomDetails";
 import PlaceImage from "../addProperty/forms/PlaceImage";
@@ -15,6 +17,7 @@ import PlaceImage from "../addProperty/forms/PlaceImage";
 const AddPropertyModel = () => {
     const [currentForm, setCurrentForm] = useState(1);
     const { open: { addProperty }, handelOpenAddProperty } = useContext(FormContext);
+    const [categories, setCategories] = useState([]);
     const [airBnbFormData, setAirBnbFormData] = useState({
         category: '',
         title: '',
@@ -47,9 +50,9 @@ const AddPropertyModel = () => {
     }
 
     const handelSubmit = async () => {
-        const { title, description, price_per_night, bedrooms, bathrooms, guests, country, image } = airBnbFormData;
+        const { title, category, description, price_per_night, bedrooms, bathrooms, guests, country, image } = airBnbFormData;
         const formData = new FormData();
-        formData.append('category', 'village');
+        formData.append('category', category);
         formData.append('title', title);
         formData.append('description', description);
         formData.append('price_per_night', price_per_night);
@@ -64,7 +67,6 @@ const AddPropertyModel = () => {
                 async (_) => await getProperties("http://127.0.0.1:8000/api/properties/")
             );
         if (response.success) {
-            console.log('SUCCESS :-D');
             router.push('/');
             handelOpenAddProperty();
             setAirBnbFormData({
@@ -87,16 +89,54 @@ const AddPropertyModel = () => {
             });
             setErrors(tmpErrors);
         }
-
     }
+
+    const getCategories = async () => {
+        const data = await apiGet("http://127.0.0.1:8000/api/categories/");
+        setCategories(data);
+    }
+
+    const handleChooseCategory = (category) => {
+        setAirBnbFormData(
+            {
+                ...airBnbFormData,
+                category: category.uuid
+            }
+        );
+    }
+
+    useEffect(() => {
+        getCategories();
+    }, [])
     const content = (
         <>
             {
                 currentForm === 1
                     ?
                     <>
-                        <h1 className="mt-3 mb-3 font-bold text-lg">Chose category</h1>
-                        <Categories />
+                        <h1 className="mt-3 mb-3 font-bold text-lg">Choose category</h1>
+                        <div className="pt-3 cursor-pointer  flex items-center space-x-12 mb-4">
+
+                            {
+                                categories.map((category) =>
+                                    <div
+                                        onClick={() => {
+                                            handleChooseCategory(category)
+                                        }
+                                        }
+                                        key={category.uuid}
+                                        className="pb-4 flex flex-col items-center space-y-2 border-b-2 border-white opacity-60 hover:border-gray-200 ">
+                                        <Image
+                                            src={category.icon_url}
+                                            alt={category.title}
+                                            width={20}
+                                            height={20}
+                                        />
+                                        <span className='text-xs'>{category.title}</span>
+                                    </div>
+                                )
+                            }
+                        </div>
                         <FormButton
                             label={'next'}
                             onClick={() => setCurrentForm(prev => prev + 1)}
@@ -149,7 +189,6 @@ const AddPropertyModel = () => {
                                     <h1 className='mt-3 mb-3 font-bold text-lg'>Location</h1>
                                     <div className='pt-3 pb-6 space-y-4'>
                                         <SelectCountry
-                                            // value={airBnbFormData.country}
                                             onChange={
                                                 (value) => setAirBnbFormData(
                                                     {

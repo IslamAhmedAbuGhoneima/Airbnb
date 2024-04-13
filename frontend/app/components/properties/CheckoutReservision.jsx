@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { differenceInDays, eachDayOfInterval, format } from 'date-fns';
 import Calender from "../form/Calender";
 import { apiPost } from "@/app/services/apiServices";
+import { useRouter } from "next/navigation";
 const CheckoutReservision = ({ price_per_night, guestNumber, propertyId }) => {
     const [reservation, setReservation] = useState({
         nights: 1,
@@ -12,7 +13,9 @@ const CheckoutReservision = ({ price_per_night, guestNumber, propertyId }) => {
     const [dateRange, setDateRange] = useState({
         startDate: new Date(),
         endDate: new Date(),
-    })
+    });
+
+    const router = useRouter();
 
     const [fee, setFee] = useState(0);
     const guests = [...Array(guestNumber)].map((_, index) => ++index);
@@ -38,9 +41,8 @@ const CheckoutReservision = ({ price_per_night, guestNumber, propertyId }) => {
         formData.append('start_date', format(dateRange.startDate, 'yyyy-MM-dd'));
         formData.append('end_date', format(dateRange.endDate, 'yyyy-MM-dd'));
         const response = await apiPost(`http://127.0.0.1:8000/api/${propertyId}/book/`, formData);
-        if (response.success) {
-            console.log('created');
-            console.log(response);
+        if (response) {
+            router.push("/reservations");
         }
     }
     const getReservations = async () => {
@@ -86,7 +88,7 @@ const CheckoutReservision = ({ price_per_night, guestNumber, propertyId }) => {
         }
     }, [dateRange]);
     return (
-        <aside className="shadow-xl p-5 border w-full rounded-xl">
+        <aside className="min-w-[375px] shadow-xl p-5 border w-full rounded-xl">
             <div>
                 <h1 className="font-bold text-lg mt-2 mb-2">${price_per_night}</h1>
                 <p className="mb-2">Total before taxes</p>

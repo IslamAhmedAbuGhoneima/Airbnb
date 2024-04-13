@@ -30,7 +30,6 @@ const LandLords = async ({ params }) => {
                 </aside>
                 <div className="cls-span-1 md:col-span-3 pl-0 md-pl-6">
                     <PropertyList
-                        key={id}
                         landlord_id={id}
                     />
                 </div>

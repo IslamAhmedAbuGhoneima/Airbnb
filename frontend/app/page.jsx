@@ -13,7 +13,6 @@ export default function Home() {
           <PropertyList />
         </Suspense>
       </FormProvider>
-
     </main>
   );
 }

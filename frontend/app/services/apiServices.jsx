@@ -1,6 +1,17 @@
 import { getAccessToken, getUserID } from "../lib/actions";
 
 
+const paymentApi = async (reservationId) => {
+    const token = await getAccessToken();
+    return await fetch("http://127.0.0.1:8000/payment/process/", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ 'id': reservationId }),
+    });
+}
 
 const apiPost = async (url, data) => {
     const token = await getAccessToken();
@@ -58,4 +69,11 @@ const getUserDetails = async () => {
     return await data.json();
 }
 
-export { apiPost, apiGet, apiPostFavorite, getProperties, getUserDetails };
+export {
+    apiPost,
+    paymentApi,
+    apiGet,
+    apiPostFavorite,
+    getProperties,
+    getUserDetails,
+};
