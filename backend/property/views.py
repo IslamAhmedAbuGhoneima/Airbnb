@@ -1,12 +1,19 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import status
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Property
-from .serializers import PropertySerializer, ReservationSerializer
+from .models import Property, Category
+from .serializers import PropertySerializer, ReservationSerializer, CategorySerializer
 # Create your views here.
 
+
+@api_view(['GET'])
+def category_list(request):
+    if request.method == "GET":
+        categories = Category.objects.all()
+        serializer = CategorySerializer(categories, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 def properties_list(request):
@@ -25,9 +32,10 @@ def properties_list(request):
 def create_property(request):
     if request.method == 'POST':
         data = request.data
+        category = Category.objects.get(uuid=data['category'])
         serializer = PropertySerializer(data=data)
         if serializer.is_valid():
-            serializer.save(landlord=request.user)
+            serializer.save(landlord=request.user, category=category)
             return Response({'success': True}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

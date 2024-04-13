@@ -5,14 +5,34 @@ import uuid
 # Create your models here.
 
 
+class Category(models.Model):
+    uuid = models.UUIDField(
+        primary_key=True, default=uuid.uuid4, editable=False)
+    title = models.CharField(max_length=250)
+    icon = models.ImageField(upload_to='icons')
+
+    class Meta:
+        verbose_name = 'category'
+        verbose_name_plural = 'Categories'
+
+    def icon_url(self):
+        return f"{settings.WEBSITE_URL}{self.icon.url}"
+
+    def __str__(self):
+        return f"{self.title}"
+
+
 class Property(models.Model):
     uuid = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False)
     landlord = models.ForeignKey(
         User, related_name='properties', on_delete=models.CASCADE)
+    category = models.ForeignKey(
+        Category, related_name='properties', on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     description = models.TextField()
-    favorited = models.ManyToManyField(User, related_name='favorites')
+    favorited = models.ManyToManyField(
+        User, related_name='favorites', blank=True)
     image = models.ImageField(upload_to='properties/images')
     price_per_night = models.DecimalField(max_digits=7, decimal_places=2)
     bedrooms = models.IntegerField()
@@ -20,7 +40,6 @@ class Property(models.Model):
     guests = models.IntegerField()
     country = models.CharField(max_length=255)
     country_code = models.CharField(max_length=10)
-    category = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -48,7 +67,8 @@ class Reservation(models.Model):
     end_date = models.DateField()
     number_of_nights = models.IntegerField()
     guests = models.IntegerField()
-    price = models.FloatField()
+    price = models.DecimalField(max_digits=7, decimal_places=2)
+    paid = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

@@ -1,7 +1,17 @@
 from rest_framework import serializers
 from useraccount.serializers import LandlordSerializer
-from .models import Property, Reservation
+from .models import Property, Reservation, Category
 
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = [
+            'uuid',
+            'title',
+            'icon',
+            'icon_url'
+        ]
 
 class PropertySerializer(serializers.ModelSerializer):
     landlord = LandlordSerializer(read_only=True)

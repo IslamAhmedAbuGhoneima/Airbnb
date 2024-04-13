@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'useraccount.apps.UseraccountConfig',
     'property.apps.PropertyConfig',
     'chat.apps.ChatConfig',
+    'payment.apps.PaymentConfig',
 
     'rest_framework',
     'rest_framework.authtoken',
@@ -113,7 +114,7 @@ REST_AUTH = {
 }
 
 
-CORS_ALLOW_ALL_ORIGINS = True
+
 
 
 MIDDLEWARE = [
@@ -206,3 +207,12 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "useraccount.User"
+
+
+# stripe payment settings
+
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51P43XlI05erH47LpCXfaP6171NFOgErLOuYDCupSZudJrAUui5Ggqg7obL4OAnEcPzpd1LWgqh9e4lfjT0xxaYbc00t1i4uDEg'
+STRIPE_SECRET_KEY = 'sk_test_51P43XlI05erH47Lp6ItWmyeGrnpOrKNtTJ1kcTk3TTe7Ex8NR85WYvQuxRJUBgI48C0Z6vLOIar8PR541ZuqIiqF00tYlHRXOu'
+STRIPE_API_VERSION = '2023-10-16'
+
+CORS_ALLOW_ALL_ORIGINS = True
