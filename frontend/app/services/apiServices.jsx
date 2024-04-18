@@ -13,6 +13,17 @@ const paymentApi = async (reservationId) => {
     });
 }
 
+const resetPasswordApi = async (email) => {
+    const response = await fetch("http://127.0.0.1:8000/user/auth/password/reset/", {
+        method: "POST",
+        headers: {
+            "Content-Type": 'application/json',
+        },
+        body: JSON.stringify({ 'email': email })
+    });
+    return await response.json();
+}
+
 const apiPost = async (url, data) => {
     const token = await getAccessToken();
     return new Promise((resolve, reject) => {
@@ -33,6 +44,30 @@ const apiPost = async (url, data) => {
     })
 }
 
+const updateUserApi = async (url, data) => {
+    const token = await getAccessToken();
+    const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        },
+        body: data
+    });
+    return await response.json();
+}
+
+const passwordChangeHandler = async (data) => {
+    const token = await getAccessToken()
+    const response = await fetch("http://127.0.0.1:8000/user/auth/password/change/", {
+        method: "POST",
+        headers: {
+            'Authorization': `Bearer ${token}`
+        },
+        body: data,
+    });
+    return await response.json();
+}
+
 const apiPostFavorite = async (url) => {
     const token = await getAccessToken();
     const response = await fetch(url, {
@@ -41,7 +76,7 @@ const apiPostFavorite = async (url) => {
             'Authorization': `Bearer ${token}`
         }
     });
-    return await response.json()
+    return await response.json();
 }
 
 const apiGet = async (url) => {
@@ -76,4 +111,7 @@ export {
     apiPostFavorite,
     getProperties,
     getUserDetails,
+    resetPasswordApi,
+    updateUserApi,
+    passwordChangeHandler
 };

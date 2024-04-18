@@ -17,7 +17,9 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-SITE_ID = 1
+
+SITE_ID = 2  # make sure SITE_ID is set
+
 WEBSITE_URL = 'http://localhost:8000'
 
 CHANNEL_LAYERS = {
@@ -34,6 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',  # make sure 'django.contrib.sites' is installed
+
     'useraccount.apps.UseraccountConfig',
     'property.apps.PropertyConfig',
     'chat.apps.ChatConfig',
@@ -47,6 +51,8 @@ INSTALLED_APPS = [
 
     'allauth',
     'allauth.account',
+    'allauth.socialaccount',  # add if you want social authentication
+    'allauth.socialaccount.providers.google',
 
     'dj_rest_auth',
     'dj_rest_auth.registration',
@@ -54,6 +60,24 @@ INSTALLED_APPS = [
     'corsheaders',
 
 ]
+
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "APP": {
+            "client_id": "9582232985-glft1sl5qsvnlrm2875923gqe6l7l4fd.apps.googleusercontent.com",  # replace me
+            "secret": "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",        # replace me
+            "key": "",                               # leave empty
+        },
+        "SCOPE": [
+            'email',
+            'profile',
+        ],
+        "AUTH_PARAMS": {
+            "access_type": "online",
+        },
+        "VERIFIED_EMAIL": True,
+    }
+}
 
 
 SIMPLE_JWT = {
@@ -97,10 +121,7 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
 
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_VERIFICATION = None
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -216,3 +237,29 @@ STRIPE_SECRET_KEY = 'sk_test_51P43XlI05erH47Lp6ItWmyeGrnpOrKNtTJ1kcTk3TTe7Ex8NR8
 STRIPE_API_VERSION = '2023-10-16'
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+
+# Email Configration
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_USE_TLS = True                                           # False
+EMAIL_PORT = 587                                                # 587
+# your email address
+EMAIL_HOST_USER = "ea495346@gmail.com"
+EMAIL_HOST_PASSWORD = "zpzq zlzk csne xjfm"                     # your password
+
+# make email verification mandatory on sign-up and enable password resetting
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+
+# set up the redirects
+
+# <EMAIL_CONFIRM_REDIRECT_BASE_URL>/<key>
+EMAIL_CONFIRM_REDIRECT_BASE_URL = 'http://localhost:3000/email/confirm/'
+
+# <PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL>/<uidb64>/<token>/
+PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL = 'http://localhost:3000/password-reset/confirm/'

@@ -6,6 +6,8 @@ import { loginCookies } from "@/app/lib/actions";
 import { useRouter } from "next/navigation";
 import FormErrors from "../form/FormErrors";
 import FormButton from "../form/FormButton";
+import SocialButtons from "../social/SocialButtons";
+import ForgetPassowrd from "../form/ForgetPassowrd";
 
 
 const LoginModel = () => {
@@ -18,7 +20,7 @@ const LoginModel = () => {
     const [errors, setErrors] = useState([]);
 
     const handelInputChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value })
+        setFormData({ ...formData, [e.target.name]: e.target.value });
     }
 
     const login = async () => {
@@ -54,6 +56,11 @@ const LoginModel = () => {
         }
     }
 
+    const handleForgetPassword = () => {
+        handelOpenLogin();
+        router.push('password/reset')
+    }
+
     const handelSubmit = (e) => {
         e.preventDefault();
         login();
@@ -79,6 +86,8 @@ const LoginModel = () => {
                     type="password"
                     className="w-full h-[54px] px-4 border border-gray-300 rounded-xl"
                 />
+                <SocialButtons />
+                <ForgetPassowrd onClick={handleForgetPassword} />
                 <FormErrors errors={errors} />
                 <FormButton label="Log in" />
             </form>

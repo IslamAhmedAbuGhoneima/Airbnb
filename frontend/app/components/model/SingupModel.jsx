@@ -28,14 +28,17 @@ const SingupModel = () => {
                 "Content-Type": 'application/json',
             },
             body: JSON.stringify(formData)
-        })
+        });
+        if (data.status == 201) {
+            router.push("/email/confirm");
+            handelOpenSingup();
+        }
         const response = await data.json();
 
         if (response.access) {
             const { user: { pk }, access, refresh } = response;
+
             loginCookies(pk, access, refresh);
-            handelOpenSingup();
-            router.push("/");
             setFormData(
                 {
                     email: "",
