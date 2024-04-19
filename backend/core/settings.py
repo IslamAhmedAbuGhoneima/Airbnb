@@ -246,8 +246,8 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_USE_TLS = True                                           # False
 EMAIL_PORT = 587                                                # 587
 # your email address
-EMAIL_HOST_USER = "ea495346@gmail.com"
-EMAIL_HOST_PASSWORD = "zpzq zlzk csne xjfm"                     # your password
+EMAIL_HOST_USER = "##############"
+EMAIL_HOST_PASSWORD = "#############"                     # your password
 
 # make email verification mandatory on sign-up and enable password resetting
 ACCOUNT_EMAIL_REQUIRED = True
